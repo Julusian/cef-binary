@@ -7,7 +7,7 @@ param(
 
 	[ValidateSet("none", "download", "local")]
 	[Parameter(Position = 1)]
-	[string] $DownloadBinary = "download",
+	[string] $DownloadBinary = "none",
 
 	[Parameter(Position = 2)]
 	# absolute or relative path to directory containing cef binaries archives (used if DownloadBinary = local)
@@ -21,13 +21,13 @@ param(
 	[string] $Extension = "tar.bz2",
 	
 	[Parameter(Position = 5)]
-	[Switch] $NoDebugBuild,
+	[Switch] $NoDebugBuild = $True,
 	
 	[Parameter(Position = 6)]
 	[string] $Suffix,
 
 	[Parameter(Position = 7)]
-	[string] $BuildArches = "win-x86;win-x64;win-arm64"
+	[string] $BuildArches = "win-x64"
 )
 
 Set-StrictMode -version latest
@@ -443,11 +443,11 @@ function Nupkg
 			. $Nuget pack nuget\cef.redist.nuspec -NoPackageAnalysis -Version $CefPackageVersion -Properties "Configuration=Release;Platform=$arch;CPlatform=$archLong;" -OutputDirectory nuget
 		}
 
-		. $Nuget pack nuget\chromiumembeddedframework.runtime.win.nuspec -NoPackageAnalysis -Version $CefPackageVersion -Properties "Configuration=Release;Platform=$arch;CPlatform=$archLong;" -OutputDirectory nuget
+		# . $Nuget pack nuget\chromiumembeddedframework.runtime.win.nuspec -NoPackageAnalysis -Version $CefPackageVersion -Properties "Configuration=Release;Platform=$arch;CPlatform=$archLong;" -OutputDirectory nuget
 	}
 		
 	# Meta Package
-	. $Nuget pack nuget\chromiumembeddedframework.runtime.nuspec -NoPackageAnalysis -Version $CefPackageVersion -Properties 'Configuration=Release;' -OutputDirectory nuget
+	# . $Nuget pack nuget\chromiumembeddedframework.runtime.nuspec -NoPackageAnalysis -Version $CefPackageVersion -Properties 'Configuration=Release;' -OutputDirectory nuget
 
 	# Build sdk
 	$Filename = Resolve-Path ".\nuget\cef.sdk.props"
@@ -602,13 +602,6 @@ try
 	$CefIncludeFolder = Join-Path $CefWorkingFolder 'include'
 
 	$Platforms = @{
-		'win-x86'=@{
-			Enabled=($BuildArches.Contains('win-x86') -or $BuildArches.Contains('x86'));
-			NativeArch='win32';
-			Arch='x86';
-			ArchLong='windows32';
-			Folder=Join-Path $WorkingDir 'cef_binary_3.y.z_windows32';
-		};
 		
 		'win-x64'=@{
 			Enabled=$BuildArches.Contains('win-x64') -or $BuildArches.Contains('x64');
@@ -618,13 +611,6 @@ try
 			Folder=Join-Path $WorkingDir 'cef_binary_3.y.z_windows64';
 		};
 		
-		'win-arm64'=@{
-			Enabled=($BuildArches.Contains('win-arm64') -or $BuildArches.Contains('arm64'));
-			NativeArch='arm64';
-			Arch='arm64';
-			ArchLong='windowsarm64';
-			Folder=Join-Path $WorkingDir 'cef_binary_3.y.z_windowsarm64';
-		};
 	}
 
 	if($DownloadBinary -eq "local")

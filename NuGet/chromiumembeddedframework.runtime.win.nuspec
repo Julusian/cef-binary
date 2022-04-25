@@ -5,7 +5,7 @@
     <version>$version$</version>
     <authors>The Chromium Embedded Framework Authors</authors>
     <owners>The CefSharp Authors</owners>
-    <projectUrl>https://github.com/cefsharp/cef-binary</projectUrl>
+    <projectUrl>https://github.com/julusian/cef-binary</projectUrl>
     <icon>images\cef128x128.png</icon>
     <license type="file">LICENSE.txt</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -17,7 +17,7 @@
     <repository type="git" url="https://bitbucket.org/chromiumembedded/cef.git" branch="3945" commit="7ec49fabd56beae20e6b4c825c085231140c3b36" />
     -->
     <description>Chromium Embedded Framework (CEF) Release Distribution
-    NOTE: This package is maintained on behalf of the CEF authors by the CefSharp project at http://github.com/cefsharp/cef-binary</description>
+    NOTE: This package is maintained on behalf of the CEF authors by the CefSharp project at http://github.com/julusian/cef-binary</description>
     <tags>chrome chromium native embedded browser CEF nativepackage</tags>
     <copyright>Copyright © 2008-2021</copyright>
   </metadata>
